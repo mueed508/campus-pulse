@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+:root {
+  /* Campus Pulse brand tokens — do not rename, referenced verbatim per spec */
+  --cui-primary-main: #532386;
+  --cui-primary-light: #9b6cbb;
+  --cui-primary-dark: #3d1a60;
+  --cui-secondary-main: #1a64b7;
+  --cui-secondary-light: #5e9cdf;
+  --cui-secondary-dark: #134d8a;
+  --cui-text-primary: #2d3748;
+  --cui-text-secondary: #718096;
+  --cui-background: #ffffff;
+  --cui-paper: #f5f7fa;
+  --cui-divider: #e1e5eb;
+  --cui-success: #16a34a;
+  --cui-warning: #f59e0b;
+  --cui-error: #ef4444;
+}
+
+@theme inline {
+  --color-primary: var(--cui-primary-main);
+  --color-primary-light: var(--cui-primary-light);
+  --color-primary-dark: var(--cui-primary-dark);
+  --color-secondary: var(--cui-secondary-main);
+  --color-secondary-light: var(--cui-secondary-light);
+  --color-secondary-dark: var(--cui-secondary-dark);
+
+  --color-ink: var(--cui-text-primary);
+  --color-ink-soft: var(--cui-text-secondary);
+  --color-inverse: #ffffff;
+
+  --color-background: var(--cui-background);
+  --color-paper: var(--cui-paper);
+  --color-divider: var(--cui-divider);
+
+  --color-success: var(--cui-success);
+  --color-warning: var(--cui-warning);
+  --color-error: var(--cui-error);
+  --color-info: var(--cui-secondary-main);
+
+  --font-display: var(--font-space-grotesk);
+  --font-body: var(--font-inter);
+
+  --animate-pulse-live: pulse-live 1.8s ease-in-out infinite;
+  --animate-card-in: card-in 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html {
+  scrollbar-gutter: stable;
+}
+
+body {
+  background: var(--cui-background);
+  color: var(--cui-text-primary);
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: var(--font-display), var(--font-body), system-ui, sans-serif;
+}
+
+@keyframes pulse-live {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(26, 100, 183, 0.55);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(26, 100, 183, 0);
+  }
+}
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+::selection {
+  background: var(--cui-primary-light);
+  color: #ffffff;
+}
