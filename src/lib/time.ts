@@ -1,4 +1,4 @@
-import { CampusEvent } from "./supabase/types";
+import { CampusEvent } from "./events/types";
 
 export function isLive(event: CampusEvent, now: Date): boolean {
   const start = new Date(event.startTime).getTime();

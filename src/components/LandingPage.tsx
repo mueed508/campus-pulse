@@ -14,7 +14,7 @@ import {
   SportsIcon,
   UsersIcon,
 } from "./icons";
-import { CampusEvent } from "@/lib/supabase/types";
+import { CampusEvent } from "@/lib/events/types";
 
 // Fixed, deterministic timestamps — this card is a static example, not live
 // data. Using new Date() here would freeze at build time (this page is
@@ -213,13 +213,13 @@ export function LandingPage() {
               {
                 step: "1",
                 title: "Post it",
-                body: "A society rep or the sports dept fills a short form — passcode-gated, under two minutes.",
+                body: "A society rep or the sports dept signs in and fills a short form — under two minutes.",
                 Icon: SocietyIcon,
               },
               {
                 step: "2",
-                title: "It goes live instantly",
-                body: "Supabase pushes it to every open feed the moment it's submitted — no refresh, no delay.",
+                title: "It goes live in seconds",
+                body: "The feed refreshes automatically, so it shows up for everyone without them lifting a finger.",
                 Icon: BoltIcon,
               },
               {

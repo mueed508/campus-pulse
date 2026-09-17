@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Space_Grotesk, Inter } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
+import { clerkAppearance, clerkLocalization } from "@/lib/clerkTheme";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -27,11 +29,17 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en"
-      className={`${spaceGrotesk.variable} ${inter.variable} h-full antialiased`}
+    <ClerkProvider
+      afterSignOutUrl="/dashboard"
+      appearance={clerkAppearance}
+      localization={clerkLocalization}
     >
-      <body className="min-h-full bg-background">{children}</body>
-    </html>
+      <html
+        lang="en"
+        className={`${spaceGrotesk.variable} ${inter.variable} h-full antialiased`}
+      >
+        <body className="min-h-full bg-background">{children}</body>
+      </html>
+    </ClerkProvider>
   );
 }

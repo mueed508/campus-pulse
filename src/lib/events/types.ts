@@ -1,4 +1,5 @@
 import { SportKind } from "@/lib/sportKinds";
+import { EventRow } from "@/lib/db/schema";
 
 export type EventType = "sports" | "society";
 
@@ -16,33 +17,19 @@ export interface CampusEvent {
   createdAt: string;
 }
 
-export interface EventRow {
-  id: string;
-  title: string;
-  type: EventType;
-  location: string;
-  posted_by: string;
-  start_time: string;
-  expires_at: string | null;
-  description: string | null;
-  sport_kind: SportKind | null;
-  image_url: string | null;
-  created_at: string;
-}
-
 export function rowToEvent(row: EventRow): CampusEvent {
   return {
     id: row.id,
     title: row.title,
     type: row.type,
     location: row.location,
-    postedBy: row.posted_by,
-    startTime: row.start_time,
-    expiresAt: row.expires_at,
+    postedBy: row.postedBy,
+    startTime: row.startTime.toISOString(),
+    expiresAt: row.expiresAt ? row.expiresAt.toISOString() : null,
     description: row.description,
-    sportKind: row.sport_kind,
-    imageUrl: row.image_url,
-    createdAt: row.created_at,
+    sportKind: row.sportKind,
+    imageUrl: row.imageUrl,
+    createdAt: row.createdAt.toISOString(),
   };
 }
 
@@ -56,18 +43,4 @@ export interface NewEventInput {
   description: string | null;
   sportKind: SportKind | null;
   imageUrl: string | null;
-}
-
-export function eventToRow(input: NewEventInput) {
-  return {
-    title: input.title,
-    type: input.type,
-    location: input.location,
-    posted_by: input.postedBy,
-    start_time: input.startTime,
-    expires_at: input.expiresAt,
-    description: input.description,
-    sport_kind: input.sportKind,
-    image_url: input.imageUrl,
-  };
 }

@@ -43,7 +43,7 @@ export function Feed() {
           {!loading && error && (
             <EmptyState
               title="Couldn't load the feed"
-              subtitle="Check your connection or Supabase setup and try again."
+              subtitle="Check your connection and try again."
             />
           )}
 

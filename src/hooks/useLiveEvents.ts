@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { isSupabaseConfigured, supabase } from "@/lib/supabase/client";
-import { fetchEvents } from "@/lib/supabase/events";
-import { MOCK_EVENTS } from "@/lib/mockEvents";
-import { CampusEvent, EventRow, rowToEvent } from "@/lib/supabase/types";
+import { fetchEvents } from "@/lib/events/api";
+import { CampusEvent } from "@/lib/events/types";
+
+const POLL_INTERVAL_MS = 12000;
 
 interface UseLiveEventsResult {
   events: CampusEvent[];
@@ -30,22 +30,21 @@ export function useLiveEvents(): UseLiveEventsResult {
   useEffect(() => {
     let cancelled = false;
 
-    async function load() {
-      if (!isSupabaseConfigured) {
-        if (!cancelled) {
-          setEvents(MOCK_EVENTS);
-          knownIds.current = new Set(MOCK_EVENTS.map((e) => e.id));
-          setLoading(false);
-        }
-        return;
-      }
+    async function poll() {
       try {
         const data = await fetchEvents();
-        if (!cancelled) {
-          setEvents(data);
-          knownIds.current = new Set(data.map((e) => e.id));
-          setLoading(false);
+        if (cancelled) return;
+
+        const incomingIds = data.map((e) => e.id);
+        const newIds = incomingIds.filter((id) => !knownIds.current.has(id));
+        if (knownIds.current.size > 0 && newIds.length > 0) {
+          setNewestId(newIds[newIds.length - 1]);
         }
+        knownIds.current = new Set(incomingIds);
+
+        setEvents(data);
+        setError(null);
+        setLoading(false);
       } catch (err) {
         if (!cancelled) {
           setError(err instanceof Error ? err.message : "Failed to load events");
@@ -54,34 +53,11 @@ export function useLiveEvents(): UseLiveEventsResult {
       }
     }
 
-    load();
-
-    if (!isSupabaseConfigured) return () => {
-      cancelled = true;
-    };
-
-    const channel = supabase
-      .channel("events-feed")
-      .on(
-        "postgres_changes",
-        { event: "INSERT", schema: "public", table: "events" },
-        (payload) => {
-          const incoming = rowToEvent(payload.new as EventRow);
-          if (knownIds.current.has(incoming.id)) return;
-          knownIds.current.add(incoming.id);
-          setNewestId(incoming.id);
-          setEvents((prev) =>
-            [...prev, incoming].sort(
-              (a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime()
-            )
-          );
-        }
-      )
-      .subscribe();
-
+    poll();
+    const interval = setInterval(poll, POLL_INTERVAL_MS);
     return () => {
       cancelled = true;
-      supabase.removeChannel(channel);
+      clearInterval(interval);
     };
   }, []);
 

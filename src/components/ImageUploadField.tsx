@@ -1,8 +1,7 @@
 "use client";
 
 import { ChangeEvent, useRef, useState } from "react";
-import { isSupabaseConfigured } from "@/lib/supabase/client";
-import { uploadEventImage, validateEventImage } from "@/lib/supabase/storage";
+import { uploadEventImage, validateEventImage } from "@/lib/events/api";
 import { CameraIcon, XIcon } from "./icons";
 
 interface ImageUploadFieldProps {
@@ -67,16 +66,12 @@ export function ImageUploadField({ imageUrl, onChange }: ImageUploadFieldProps) 
       ) : (
         <button
           type="button"
-          disabled={!isSupabaseConfigured || uploading}
+          disabled={uploading}
           onClick={() => inputRef.current?.click()}
           className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-divider bg-white px-4 py-4 text-sm font-medium text-ink-soft transition hover:border-primary hover:text-primary disabled:cursor-not-allowed disabled:opacity-50"
         >
           <CameraIcon className="h-4 w-4" />
-          {uploading
-            ? "Uploading…"
-            : isSupabaseConfigured
-              ? "Add a photo"
-              : "Photo upload needs Supabase configured"}
+          {uploading ? "Uploading…" : "Add a photo"}
         </button>
       )}
 

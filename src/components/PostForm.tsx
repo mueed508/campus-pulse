@@ -3,10 +3,10 @@
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { createEvent } from "@/lib/supabase/events";
-import { isSupabaseConfigured } from "@/lib/supabase/client";
+import { UserButton } from "@clerk/nextjs";
+import { createEvent } from "@/lib/events/api";
 import { DURATION_PRESETS } from "@/lib/constants";
-import { EventType } from "@/lib/supabase/types";
+import { EventType } from "@/lib/events/types";
 import { toDatetimeLocalValue } from "@/lib/time";
 import { SportKind } from "@/lib/sportKinds";
 import { SocietyIcon, SportsIcon } from "./icons";
@@ -132,20 +132,16 @@ export function PostForm() {
 
   return (
     <div className="mx-auto min-h-screen w-full max-w-lg px-5 py-8 sm:px-8">
-      <Link href="/dashboard" className="text-sm font-medium text-secondary hover:text-secondary-dark">
-        ← Back to feed
-      </Link>
+      <div className="flex items-center justify-between">
+        <Link href="/dashboard" className="text-sm font-medium text-secondary hover:text-secondary-dark">
+          ← Back to feed
+        </Link>
+        <UserButton />
+      </div>
       <h1 className="font-display mt-3 text-3xl font-bold tracking-tight text-ink">
         Post a live event
       </h1>
       <p className="mt-1 text-sm text-ink-soft">Under two minutes. It&apos;ll show up instantly.</p>
-
-      {!isSupabaseConfigured && (
-        <p className="mt-4 rounded-xl bg-warning/10 px-4 py-3 text-xs font-medium text-warning">
-          Supabase env vars aren&apos;t set — this will fail to save until NEXT_PUBLIC_SUPABASE_URL and
-          NEXT_PUBLIC_SUPABASE_ANON_KEY are configured.
-        </p>
-      )}
 
       <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-5">
         <div>

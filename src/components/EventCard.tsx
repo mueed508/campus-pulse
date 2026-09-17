@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { CampusEvent } from "@/lib/supabase/types";
+import { CampusEvent } from "@/lib/events/types";
 import { formatLiveStatus, formatTime, formatUpcomingStatus } from "@/lib/time";
 import { ClockIcon, PinIcon, SocietyIcon, SportsIcon, UsersIcon } from "./icons";
 import { LiveDot } from "./LiveDot";

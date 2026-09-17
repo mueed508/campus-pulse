@@ -1,5 +1,3 @@
-export const ADMIN_PASSCODE = process.env.NEXT_PUBLIC_ADMIN_PASSCODE ?? "";
-
 export const DURATION_PRESETS = [
   { label: "30 min", minutes: 30 },
   { label: "1 hr", minutes: 60 },

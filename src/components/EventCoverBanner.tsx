@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CampusEvent } from "@/lib/supabase/types";
+import { CampusEvent } from "@/lib/events/types";
 import { SPORT_KIND_META } from "@/lib/sportKinds";
 import { ImageLightbox } from "./ImageLightbox";
 import { ExpandIcon } from "./icons";
