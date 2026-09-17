@@ -3,7 +3,6 @@
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { UserButton } from "@clerk/nextjs";
 import { createEvent } from "@/lib/events/api";
 import { DURATION_PRESETS } from "@/lib/constants";
 import { EventType } from "@/lib/events/types";
@@ -13,6 +12,7 @@ import { SocietyIcon, SportsIcon } from "./icons";
 import { SportKindPicker } from "./SportKindPicker";
 import { ImageUploadField } from "./ImageUploadField";
 import { BrandRings } from "./BrandRings";
+import { UserMenu } from "./UserMenu";
 
 type StartMode = "now" | "later";
 type DurationMode = "preset" | "custom";
@@ -136,7 +136,7 @@ export function PostForm() {
         <Link href="/dashboard" className="text-sm font-medium text-secondary hover:text-secondary-dark">
           ← Back to feed
         </Link>
-        <UserButton />
+        <UserMenu />
       </div>
       <h1 className="font-display mt-3 text-3xl font-bold tracking-tight text-ink">
         Post a live event

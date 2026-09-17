@@ -17,6 +17,7 @@ export const events = pgTable("events", {
   type: eventTypeEnum("type").notNull(),
   location: text("location").notNull(),
   postedBy: text("posted_by").notNull(),
+  postedByUserId: text("posted_by_user_id"),
   startTime: timestamp("start_time", { withTimezone: true }).notNull(),
   expiresAt: timestamp("expires_at", { withTimezone: true }),
   description: text("description"),

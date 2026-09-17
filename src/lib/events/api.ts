@@ -6,6 +6,35 @@ export async function fetchEvents(): Promise<CampusEvent[]> {
   return res.json();
 }
 
+export async function fetchMyEvents(): Promise<CampusEvent[]> {
+  const res = await fetch("/api/events/mine", { cache: "no-store" });
+  if (!res.ok) throw new Error("Failed to load your events");
+  return res.json();
+}
+
+export type EventPatch = Partial<Omit<NewEventInput, "postedBy">> & { postedBy?: string };
+
+export async function updateEvent(id: string, patch: EventPatch): Promise<CampusEvent> {
+  const res = await fetch(`/api/events/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(patch),
+  });
+  if (!res.ok) {
+    const body = await res.json().catch(() => null);
+    throw new Error(body?.error ?? "Failed to update event");
+  }
+  return res.json();
+}
+
+export async function deleteEvent(id: string): Promise<void> {
+  const res = await fetch(`/api/events/${id}`, { method: "DELETE" });
+  if (!res.ok) {
+    const body = await res.json().catch(() => null);
+    throw new Error(body?.error ?? "Failed to delete event");
+  }
+}
+
 export async function createEvent(input: NewEventInput): Promise<CampusEvent> {
   const res = await fetch("/api/events", {
     method: "POST",
