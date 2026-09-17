@@ -34,7 +34,7 @@ No auth system, no ORM, no state management library — it's intentionally small
 ### 1. Clone and install
 
 ```bash
-git clone <this-repo-url>
+git clone <https://github.com/mueed508/campus-pulse>
 cd campus-pulse
 npm install
 ```
